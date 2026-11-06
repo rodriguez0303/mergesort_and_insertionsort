@@ -3,21 +3,19 @@ import java.util.Arrays;
 
 public class MainMergeSort {
 
-    // Este método divide el arreglo en subarreglos más pequeños.
+    // Método que divide el arreglo en subarreglos más pequeños.
 
     // Arreglo original: [8, 3, 5, 1, 9, 2, 7, 4, 6]
-            //Recibe el arreglo, posición inicial del arreglo, posición final
+            //Recibe el [arreglo, posición inicial del arreglo, posición final]
     // Primera llamada: mergeSort(arreglo, 0, 8)
     public static void mergeSort(int[] arreglo, int izquierda, int derecha) {
 
-        // EXPLICACIÓN:
-        // Verifica si el subarreglo tiene más de un elemento.
+        // Se Verifica si el subarreglo tiene más de un elemento.
 
-        // PRUEBA MANUAL:
         // izquierda = 0
         // derecha = 8
         // ¿0 < 8? Sí.
-        // Como el indice izquierdo es menor al derecho , entra al if.
+        // Como el indice izquierdo es menor al derecho, entra al if.
         if (izquierda < derecha) {
 
             // Se calcula el índice central del subarreglo.
@@ -41,15 +39,19 @@ public class MainMergeSort {
 
             // [8, 3, 5, 1, 9]
 
-            // Se divide en:
-            // [8, 3, 5] y [1, 9]
+            // Luego de esa sub-división de los nodos  [8, 3, 5, 1, 9], se vuelve a realizar otra
+            // los elementos desde el índice 0 hasta el 2 forman la mitad izquierda.
+            // y los elementos desde el índice 3 hasta el 4 forman la mitad derecha.
 
-            // Después:
+            // Mitad izquierda: [8, 3, 5]
+            // Mitad derecha: [1, 9]
+
+            // Después se sigue dividiendo hasta tener elementos individuales:
             // [8, 3, 5] -> [8, 3] y [5]
             // [8, 3] -> [8] y [3]
             // [1, 9] -> [1] y [9]
 
-            // Después de las combinaciones se ordenan:
+            // Después  se ordenan:
             // [1, 3, 5, 8, 9]
             mergeSort(arreglo, izquierda, medio);
 
@@ -79,7 +81,7 @@ public class MainMergeSort {
             // Combinación de las dos mitades previamente ordenadas.
 
             // Mitad izquierda: [1, 3, 5, 8, 9]
-            // Mitad derecha:   [2, 4, 6, 7]
+            // Mitad derecha:[2, 4, 6, 7]
 
             // Resultado:
             // [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -87,51 +89,53 @@ public class MainMergeSort {
         }
     }
 
-    // Se combina dos subarreglos que ya están ordenados.
+    //******************************************************************
+    //******************************************************************
+
+    // Método que  combina dos subarreglos que ya están ordenados.
     // [1, 3, 5, 8, 9] + [2, 4, 6, 7]
 
-    // izquierda = 0
-    // medio = 4
-    // derecha = 8
+    // izquierda = 0 (posición inicial del arreglo)
+    // medio = 4 (última posición de la mitad izquierda)
+    // derecha = 8 8 (última posición de la mitad derecha)
     public static void merge(int[] arreglo, int izquierda, int medio, int derecha) {
 
         // Se Calcula el tamaño del subarreglo izquierdo.
-
-        // n1 = 4 - 0 + 1
-        // n1 = 5
+            // Se suma 1 porque se incluyen las posiciones 0, 1, 2, 3 y 4.
+                // n1 = 4 - 0 + 1 = 5 (medio - izquierda + 1)
         int n1 = medio - izquierda + 1;
 
-        // EXPLICACIÓN:
-        // Calcula el tamaño del subarreglo derecho.
 
-        // n2 = 8 - 4
-        // n2 = 4
+        // Se Calcula el tamaño del subarreglo derecho.
+            // Corresponde a las posiciones 5, 6, 7 y 8.
+                // n2 = 8 - 4 = 4
         int n2 = derecha - medio;
 
         // Se crea un arreglo temporal para la mitad izquierda.
-
-        // n1 = 5
-        // izquierdo = [0, 0, 0, 0, 0]
+            // n1 = 5
+                // izquierdo = [0, 0, 0, 0, 0]
         int[] izquierdo = new int[n1];
 
         // Se crea un arreglo temporal para la mitad derecha.
-
-        // n2 = 4
-        // derecho = [0, 0, 0, 0]
+            // n2 = 4
+                // derecho = [0, 0, 0, 0]
         int[] derecho = new int[n2];
 
-        // Se Copia los elementos de la mitad izquierda.
+        //**************
+        //Este for solamente copia los elementos del arreglo original al arreglo temporal izquierdo[]. No compara los valores entre sí ni los ordena.
+        // Resultado: [1, 3, 5, 8, 9]
         // i = 0 -> izquierdo[0] = arreglo[0] = 1
         // i = 1 -> izquierdo[1] = arreglo[1] = 3
         // i = 2 -> izquierdo[2] = arreglo[2] = 5
         // i = 3 -> izquierdo[3] = arreglo[3] = 8
         // i = 4 -> izquierdo[4] = arreglo[4] = 9
-        //
-        // Resultado: [1, 3, 5, 8, 9]
+
         for (int i = 0; i < n1; i++) {
             izquierdo[i] = arreglo[izquierda + i];
         }
 
+        //**************
+        //Este for solamente copia los elementos del arreglo original al arreglo temporal derecho []. No compara los valores entre sí ni los ordena.
         // Se copia los elementos de la mitad derecha.
         // j = 0 -> derecho[0] = arreglo[5] = 2
         // j = 1 -> derecho[1] = arreglo[6] = 4
@@ -143,25 +147,26 @@ public class MainMergeSort {
             derecho[j] = arreglo[medio + 1 + j];
         }
 
-        // i recorre el subarreglo izquierdo
-        // i = 0, apunta al valor 1.
+        //**********************
+        // Aunque el arreglo original se dividió en dos subarreglos,
+            // al momento de unirlos SE DEBEN COMPARAR SUS ELEMENTOS
+                // para colocarlos en orden, sin importar si pertenecen al subarreglo izquierdo o al derecho.
+
+            // La variable i indica la posición del elemento que se va a comparar dentro del subarreglo izquierdo.
+                // Cuando ese elemento se copia al arreglo original,
+                    // i aumenta para continuar con el siguiente.
         int i = 0;
 
-        // j recorre el subarreglo derecho.
-        //
-        // PRUEBA MANUAL:
-        // j = 0, apunta al valor 2.
+        // La variable j indica la posición del elemento que se va a COMPARAR dentro del subarreglo derecho.
+            // Cuando ese elemento se copia al arreglo original,
+                // j aumenta para continuar con el siguiente.
         int j = 0;
+        //**********************
 
-
-        // k indica la posición del arreglo original donde se copiará el siguiente elemento.
-        // k = izquierda = 0.
+        // La variable k indica la posición del arreglo original
+            // donde se va a guardar el número seleccionado después de comparar los elementos de ambos subarreglos.
         int k = izquierda;
 
-        // Se Compara elementos mientras ambos subarreglos tengan valores disponibles.
-
-        // Comparaciones de la combinación final:
-        //
         // 1 <= 2 -> copia 1
         // 3 <= 2 -> falso, copia 2
         // 3 <= 4 -> copia 3
@@ -169,10 +174,9 @@ public class MainMergeSort {
         // 5 <= 6 -> copia 5
         // 8 <= 6 -> falso, copia 6
         // 8 <= 7 -> falso, copia 7
-        //
-        // En este momento j = 4.
 
-        // El subarreglo derecho se terminó.
+        //**********************
+        // Se seguirá haciendo la comparación de valores mientras ambos sub-arreglos tengan valores
         while (i < n1 && j < n2) {
 
             // Se compara los valores actuales.
@@ -209,10 +213,7 @@ public class MainMergeSort {
         }
 
         // Se Copia los elementos restantes del subarreglo izquierdo.
-        //
-        // PRUEBA MANUAL:
         // Quedan los valores 8 y 9.
-        //
         // arreglo[7] = 8
         // arreglo[8] = 9
         while (i < n1) {
@@ -235,6 +236,9 @@ public class MainMergeSort {
             k++;
         }
     }
+
+    //******************************************************************
+    //******************************************************************
 
     public static void main(String[] args) {
 
